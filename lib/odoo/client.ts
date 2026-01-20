@@ -138,6 +138,8 @@ export class OdooClient {
 
   /**
    * Execute workflow action
+   * @deprecated Odoo has moved to activity-based workflows. This method may not work in newer versions.
+   * Use action methods like action_confirm, action_done, etc. instead.
    */
   async execWorkflow(model: string, id: number, signal: string): Promise<any> {
     return this.call(model, 'exec_workflow', [[id], signal]);

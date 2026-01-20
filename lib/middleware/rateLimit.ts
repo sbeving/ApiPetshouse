@@ -10,8 +10,20 @@ interface RateLimitStore {
 const store: RateLimitStore = {};
 
 /**
- * Simple in-memory rate limiter
- * For production, consider using Redis or similar
+ * Simple in-memory rate limiter middleware
+ * For production, consider using Redis or similar distributed store
+ * 
+ * @template T - Additional parameters passed to the handler (e.g., route params)
+ * @param handler - The Next.js route handler function to wrap
+ * @param options - Configuration options for rate limiting
+ * @param options.maxRequests - Maximum number of requests allowed in the window (default: 100)
+ * @param options.windowMs - Time window in milliseconds (default: 60000)
+ * @returns Wrapped handler with rate limiting applied
+ * 
+ * @example
+ * ```ts
+ * export const GET = withRateLimit(handleGET, { maxRequests: 50, windowMs: 30000 });
+ * ```
  */
 export function withRateLimit<T extends any[]>(
   handler: (req: NextRequest, ...args: T) => Promise<NextResponse>,
