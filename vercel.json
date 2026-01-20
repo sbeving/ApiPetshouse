@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "ODOO_URL": "@odoo-url",
+    "ODOO_DB": "@odoo-db",
+    "ODOO_USERNAME": "@odoo-username",
+    "ODOO_PASSWORD": "@odoo-password",
+    "API_BEARER_TOKEN": "@api-bearer-token",
+    "API_KEY": "@api-key",
+    "RATE_LIMIT_MAX_REQUESTS": "100",
+    "RATE_LIMIT_WINDOW_MS": "60000"
+  }
+}
