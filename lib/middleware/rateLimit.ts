@@ -13,14 +13,14 @@ const store: RateLimitStore = {};
  * Simple in-memory rate limiter
  * For production, consider using Redis or similar
  */
-export function withRateLimit(
-  handler: (req: NextRequest) => Promise<NextResponse>,
+export function withRateLimit<T extends any[]>(
+  handler: (req: NextRequest, ...args: T) => Promise<NextResponse>,
   options?: {
     maxRequests?: number;
     windowMs?: number;
   }
 ) {
-  return async (req: NextRequest): Promise<NextResponse> => {
+  return async (req: NextRequest, ...args: T): Promise<NextResponse> => {
     const maxRequests = options?.maxRequests || 
       parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100');
     const windowMs = options?.windowMs || 
@@ -74,7 +74,7 @@ export function withRateLimit(
       );
     }
 
-    const response = await handler(req);
+    const response = await handler(req, ...args);
 
     // Add rate limit headers to response
     response.headers.set('X-RateLimit-Limit', maxRequests.toString());
