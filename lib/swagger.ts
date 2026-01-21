@@ -6,18 +6,35 @@ export const getApiDocs = async () => {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'Odoo API Proxy',
+        title: 'Agent Petshouse API',
         version: '1.0.0',
-        description: 'REST API proxy for Odoo Online with Bearer and X-API-Key authentication',
+        description: `
+REST API proxy for Pets House Odoo store. 
+This API provides access to products, orders, and inventory management.
+
+**Authentication**: Use either Bearer token or X-API-Key header.
+
+**Rate Limiting**: 100 requests per minute per IP.
+
+**Base URLs**:
+- Development: http://localhost:3000
+- Production: Update after Vercel deployment
+        `.trim(),
+        contact: {
+          name: 'API Support',
+          email: 'saleh.touil.3@gmail.com',
+        },
       },
       servers: [
         {
-          url: 'http://localhost:3000',
-          description: 'Development server',
+          url: process.env.VERCEL_URL 
+            ? `https://${process.env.VERCEL_URL}` 
+            : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+          description: process.env.VERCEL_URL ? 'Production server' : 'Development server',
         },
         {
-          url: 'https://your-domain.vercel.app',
-          description: 'Production server',
+          url: 'http://localhost:3000',
+          description: 'Local development',
         },
       ],
       components: {
